@@ -34,6 +34,7 @@
     </section>
 
     <div class="container p-3">
+        {% if itens is not True %}
         <table class="table">
             <thead>
                 <tr>
@@ -44,56 +45,57 @@
             <tbody>
                 <tr>
                     <th scope="row">Número do pedido</th>
-                    <td>123456</td>
+                    <td>{{itens.numero_pedido}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Nome do Cliente</th>
-                    <td>José Silva</td>
+                    <td>{{itens.nome_cliente}}</td>
                 </tr>
                 <tr>
                     <th scope="row">telefone</th>
-                    <td>81999999999</td>
+                    <td>{{itens.telefone}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Data/Hora do pedido</th>
-                    <td>01/07/2023 - 19:52:30</td> 
+                    <td>{{itens.data}}</td> 
                 </tr>                   
                 <tr>
                     <th scope="row">Endereço de entrega</th>
-                    <td>Rua São Francisco de assis, Cruz de Rebouças, Igarassu</td>
+                    <td>{{itens.endereco_entrega}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Número</th>
-                    <td>110</td>
+                    <td>{{itens.numero_entrega}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Complemento</th>
-                    <td></td>
+                    <td>{{itens.complemento}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Ponto de referência</th>
-                    <td></td>
+                    <td>{{itens.referencia}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Valor de produtos</th>
-                    <td>R$ 60,00</td> 
+                    <td>R$ {{itens.valor_produtos}}</td> 
                 </tr>                   
                 <tr>
                     <th scope="row">Valor do frete</th>
-                    <td>R$ 7,00</td>
+                    <td>R$ {{itens.frete}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Valor do pedido</th>
-                    <td>R$ 67,00</td>
+                    <td>R$ {{itens.total_pedido}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Forma de Pagamento</th>
-                    <td>Débito</td>
+                    <td>{{itens.forma_pagamento}}</td>
                 </tr>
             </tbody>
         </table>
 
         <button type="button" class="btn btn-success">Chamar Entregador</button>
+        {% endif %}
     </div>
 </body>
 
