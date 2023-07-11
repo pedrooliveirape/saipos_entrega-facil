@@ -44,7 +44,7 @@ def pedido_info(auth, num_pedido):
     frete = resposta['sale_delivery']['store_district']['delivery_fee']
     valor_total = resposta['total_amount']
     forma_pagamento = resposta['payment_types'][0]['payment_type']['desc_store_payment_type']
-    data = resposta['sale_status']['created_at']
+    data = resposta['created_at']
 
     dict_pedido = {
         'numero_pedido': num_pedido,
@@ -95,6 +95,10 @@ def auth_saipos(navegador):
             print('passei aqui no except')
             if cont > 60:             
                 break
+
+def abrir_entregaFacil(navegador):
+    aba_ifood = navegador.window_handles[-1]
+    navegador.switch_to.window(aba_ifood)
 
 #g = requests.get('https://google.com')
 #response = requests.get('https://conta.saipos.com/')
