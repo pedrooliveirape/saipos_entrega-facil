@@ -65,7 +65,7 @@ class PedidoForms(forms.Form):
     )
     complemento = forms.CharField(
         label='Complemento',
-        required=True,
+        required=False,
         max_length=100,
         widget=forms.TextInput(
             attrs={
@@ -75,7 +75,7 @@ class PedidoForms(forms.Form):
     )
     referencia = forms.CharField(
         label='Ponto de referência',
-        required=True,
+        required=False,
         max_length=100,
         widget=forms.TextInput(
             attrs={

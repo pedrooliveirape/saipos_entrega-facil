@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from pathlib import Path, os
 from dotenv import load_dotenv
+from selenium_helper import SeleniumHelper
 from time import sleep
 
 def pedido_info(auth, num_pedido):
@@ -60,49 +61,67 @@ def pedido_info(auth, num_pedido):
         'total_pedido': float(valor_total),
         'forma_pagamento': forma_pagamento
     }
-
     return dict_pedido
 
-def auth_saipos(navegador):
-    navegador.find_element(By.NAME, 'link-saipos').click()
-    user = str(os.getenv('user_saipos'))
-    password = str(os.getenv('password_saipos'))
-    aba_saipos = navegador.window_handles[1]
-    navegador.switch_to.window(aba_saipos)
-    # Fazer Login
+def auth_saipos():
+    pass
+
+
+# def abrir_entregaFacil():
+#     selenium_helper = SeleniumHelper()
+#     selenium_helper.abrir_entrega_facil()
+
+def abrir_entregaFacil(form):
+    profile_path = r'C:\Users\pedro\AppData\Local\Google\Chrome\User Data'
+    options = Options()
+    options.add_argument('window-size=1240,980')
+    options.add_argument('--user-data-dir=' + profile_path)
+    service = Service(ChromeDriverManager().install())
+    navegador = webdriver.Chrome(service=service, options=options)
+    navegador.get('https://gestordepedidos.ifood.com.br/#/home/orders/now')
+
+    print(form)
+    # Clicar no ENtrega Fácil
     cont = 0
     while True:
+        sleep(1)
         try:
-            sleep(1)
-            navegador.find_element(By.XPATH, '//*[@id="l-login"]/form/div[1]/div/input').send_keys(user)
-            navegador.find_element(By.XPATH, '//*[@id="l-login"]/form/div[2]/div/input').send_keys(password)
-            navegador.find_element(By.XPATH, '//*[@id="l-login"]/form/button/i').click()
+            navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/aside/nav/a[4]/div').click()
             break
         except:
             cont += 1
-            if cont > 60:             
+            if cont > 30:
+                print('Botão para clique não encontrado')
                 break
-    # Derrubar outra seção com o usuário
+    # Digitar na barra de endereço do cliente
     cont = 0
     while True:
+        sleep(1)
         try:
-            sleep(2)
-            navegador.find_element(By.XPATH, '/html/body/div[2]/div[2]/p[2]/button[2]').click()
-            print('passei aqui')
+            navegador.find_element(By.XPATH, '//*[@id="downshift-3-input"]').send_keys(form['endereco_entrega'])
             break
         except:
-            cont += 1 
-            print('passei aqui no except')
-            if cont > 60:             
+            cont += 1
+            if cont > 30:
+                print('input para digitar não encontrado')
                 break
 
-def abrir_entregaFacil(navegador):
-    aba_ifood = navegador.window_handles[-1]
-    navegador.switch_to.window(aba_ifood)
+    # Preencher todas as informações
+    cont = 0
+    while True:
+        sleep(1)
+        try:
+            navegador.find_element(By.XPATH, '//*[@id="streetNumber"]').send_keys(form['numero_entrega'])
+            break
+        except:
+            cont += 1
+            if cont > 60:
+                print('input para digitar não encontrado')
+                break
+    
+    while True:
+        resp = input('Digite sair para fechar...')
+        if resp == 's':
+            break
 
-#g = requests.get('https://google.com')
-#response = requests.get('https://conta.saipos.com/')
-#if response != g:
-#    pedido_info()
-#else:
-#    auth = auth_saipos()
+    navegador.close()    

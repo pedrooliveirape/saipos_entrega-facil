@@ -16,6 +16,8 @@ def infopedido(request):
     form = PedidoForms(infos_pedido)
 
     if request.method == 'POST':
-        form = PedidoForms(request.POST)
+        form = infos_pedido
+        abrir_entregaFacil(form)
+        return render(request, 'index.html')
 
     return render(request, 'info-pedido.html', {'form': form})
