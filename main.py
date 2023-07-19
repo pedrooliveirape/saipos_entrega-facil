@@ -15,5 +15,5 @@ service = Service(ChromeDriverManager().install())
 navegador = webdriver.Chrome(service=service, options=options)
 navegador.get('http://127.0.0.1:8000/')
 
-
+input('Digite ENTER para fechar...')
 navegador.close()

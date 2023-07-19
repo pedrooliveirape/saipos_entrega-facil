@@ -66,11 +66,6 @@ def pedido_info(auth, num_pedido):
 def auth_saipos():
     pass
 
-
-# def abrir_entregaFacil():
-#     selenium_helper = SeleniumHelper()
-#     selenium_helper.abrir_entrega_facil()
-
 def abrir_entregaFacil(form):
     profile_path = r'C:\Users\pedro\AppData\Local\Google\Chrome\User Data'
     options = Options()
@@ -80,7 +75,6 @@ def abrir_entregaFacil(form):
     navegador = webdriver.Chrome(service=service, options=options)
     navegador.get('https://gestordepedidos.ifood.com.br/#/home/orders/now')
 
-    print(form)
     # Clicar no ENtrega Fácil
     cont = 0
     while True:
