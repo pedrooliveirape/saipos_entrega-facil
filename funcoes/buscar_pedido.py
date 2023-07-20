@@ -67,6 +67,7 @@ def auth_saipos():
     pass
 
 def abrir_entregaFacil(form):
+    print(form['pagamento_entrega'].value())
     profile_path = r'C:\Users\pedro\AppData\Local\Google\Chrome\User Data'
     options = Options()
     options.add_argument('window-size=1240,980')
@@ -92,7 +93,7 @@ def abrir_entregaFacil(form):
     while True:
         sleep(1)
         try:
-            navegador.find_element(By.XPATH, '//*[@id="downshift-3-input"]').send_keys(form['endereco_entrega'])
+            navegador.find_element(By.XPATH, '//*[@id="downshift-3-input"]').send_keys(form['endereco_entrega'].value())            
             break
         except:
             cont += 1
@@ -101,11 +102,43 @@ def abrir_entregaFacil(form):
                 break
 
     # Preencher todas as informações
+    # Número do endereço
     cont = 0
     while True:
         sleep(1)
         try:
-            navegador.find_element(By.XPATH, '//*[@id="streetNumber"]').send_keys(form['numero_entrega'])
+            # Número do endereço para entrega
+            navegador.find_element(By.XPATH, '//*[@id="streetNumber"]').send_keys(form['numero_entrega'].value())
+            # Complemento
+            if form['complemento'].value() is not None:
+                navegador.find_element(By.XPATH, '//*[@id="complement"]').send_keys(form['complemento'].value())
+            else: 
+                navegador.find_element(By.XPATH, '//*[@id="withoutComplement"]').click()
+            # Ponto de referência
+            if form['referencia'].value() is not None:
+                navegador.find_element(By.XPATH, '//*[@id="reference"]').send_keys(form['complemento'].value())
+            else:
+                navegador.find_element(By.XPATH, '//*[@id="reference"]').send_keys('.')
+            # Nome do cliente
+            navegador.find_element(By.XPATH, '//*[@id="name"]').send_keys(form['nome_cliente'].value())
+            # Whatsapp do cliente
+            navegador.find_element(By.XPATH, '//*[@id="telephone"]').send_keys(form['telefone'].value())
+            # Valor do pedido
+            navegador.find_element(By.XPATH, '//*[@id="orderPrice"]').send_keys(form['valor_produtos'].value())
+            if not 'Pix' in form['forma_pagamento'].value():
+                # Solicitar pagamento na entrega
+                navegador.find_element(By.XPATH, '//*[@id="enabled"]').click()
+                # Taxa de entrega
+                navegador.find_element(By.XPATH, '//*[@id="deliveryPrice"]').send_keys(form['valor_produtos'].value())
+                # Pedir Maquinhinha
+                navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/div[2]/label/div/div/input').click()
+                # Escolher forma de pagamento
+                if 'Crédito' in form['forma_pagamento'].value():
+                    navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/div[3]/label[1]/div/div[1]/input').click()
+                    navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/div[4]/div/label[3]/div/div/input').click()
+                elif 'Débito' in form['forma_pagamento'].value():
+                    navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/div[3]/label[2]/div/div[1]/input').click()
+                    navegador.find_element(By.XPATH, '//*[@id="root"]/div[1]/div[1]/div[1]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/div[4]/div/label[5]/div/div/input').click()   
             break
         except:
             cont += 1
